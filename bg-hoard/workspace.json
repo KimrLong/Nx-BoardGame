@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "defaultProject": "board-game",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "board-game": {
+      "root": "apps/board-game",
+      "sourceRoot": "apps/board-game",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/board-game",
+            "outputPath": "dist/apps/board-game"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "board-game:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "board-game:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "board-game:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/board-game"],
+          "options": {
+            "jestConfig": "apps/board-game/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/board-game/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "board-game-e2e": {
+      "root": "apps/board-game-e2e",
+      "sourceRoot": "apps/board-game-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/board-game-e2e/cypress.json",
+            "tsConfig": "apps/board-game-e2e/tsconfig.e2e.json",
+            "devServerTarget": "board-game:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "board-game:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/board-game-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
